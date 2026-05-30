@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniBox — مرکز دانشجویی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #1a1a24;
+  --bg4: #22222f;
+  --card: #16161f;
+  --card2: #1e1e2a;
+  --border: #2a2a3a;
+  --border2: #35354a;
+  --text: #f0f0ff;
+  --text2: #a0a0c0;
+  --text3: #6060a0;
+  --accent: #7c5cfc;
+  --accent2: #5c3de0;
+  --accent3: #a07cff;
+  --green: #3ddc97;
+  --orange: #ff8c42;
+  --pink: #ff5c8d;
+  --yellow: #ffd166;
+  --cyan: #36d9d9;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 40px rgba(0,0,0,0.5);
+  --glow: 0 0 30px rgba(124,92,252,0.15);
+}
+.light-mode {
+  --bg: #f4f4ff;
+  --bg2: #eeeeff;
+  --bg3: #e4e4f8;
+  --bg4: #dcdcf0;
+  --card: #ffffff;
+  --card2: #f8f8ff;
+  --border: #d0d0e8;
+  --border2: #c0c0d8;
+  --text: #1a1a2e;
+  --text2: #4a4a7a;
+  --text3: #8888b0;
+  --glow: 0 0 30px rgba(124,92,252,0.08);
+  --shadow: 0 4px 20px rgba(100,100,180,0.12);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Vazirmatn', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+  overflow-x: hidden;
+}
+
+/* ─── NOISE TEXTURE OVERLAY ─── */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0; opacity:0.4;
+}
+
+/* ─── TOP NAV ─── */
+nav {
+  position: fixed; top:0; left:0; right:0;
+  z-index: 1000;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 0 32px;
+  height: 64px;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
+}
+.light-mode nav { background: rgba(244,244,255,0.88); }
+.nav-logo {
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(135deg, var(--accent3), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+.nav-logo span { font-family: 'Space Mono', monospace; }
+.nav-links {
+  display: flex; gap: 4px; list-style:none;
+}
+.nav-links a {
+  color: var(--text2); text-decoration:none; font-size:14px; font-weight:500;
+  padding: 7px 14px; border-radius: 8px;
+  transition: all 0.2s;
+}
+.nav-links a:hover { background: var(--bg3); color: var(--text); }
+.nav-actions { display:flex; gap:10px; align-items:center; }
+.btn-icon {
+  width:38px; height:38px; border-radius:10px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  cursor:pointer; font-size:16px;
+  display:flex; align-items:center; justify-content:center;
+  transition: all 0.2s;
+}
+.btn-icon:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-focus {
+  padding: 8px 18px; border-radius:10px;
+  background: linear-gradient(135deg, var(--accent), var(--pink));
+  color:#fff; border:none; font-family:inherit; font-size:13px; font-weight:600;
+  cursor:pointer; transition: all 0.2s;
+}
+.btn-focus:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,92,252,0.4); }
+
+/* ─── HERO ─── */
+.hero {
+  position:relative; z-index:1;
+  padding: 140px 40px 80px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:-1;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,92,252,0.12) 0%, transparent 70%);
+}
+.hero-tag {
+  display:inline-flex; align-items:center; gap:8px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  padding: 6px 16px; border-radius:999px;
+  font-size:13px; color: var(--accent3); margin-bottom:24px;
+  animation: fadeUp 0.6s ease both;
+}
+.hero h1 {
+  font-size: clamp(40px, 7vw, 76px);
+  font-weight:900; line-height:1.1;
+  letter-spacing:-2px;
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+.hero h1 em {
+  font-style:normal;
+  background: linear-gradient(135deg, var(--accent3), var(--cyan), var(--green));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero p {
+  font-size: 18px; color: var(--text2); margin-top:16px; max-width:500px; margin-inline:auto;
+  animation: fadeUp 0.6s ease 0.2s both;
+}
+.hero-stats {
+  display:flex; gap:32px; justify-content:center; margin-top:40px;
+  animation: fadeUp 0.6s ease 0.3s both;
+}
+.stat { text-align:center; }
+.stat-num { font-size:28px; font-weight:800; color: var(--accent3); font-family:'Space Mono',monospace; }
+.stat-label { font-size:12px; color: var(--text3); margin-top:2px; }
+
+/* ─── SECTION WRAPPER ─── */
+.section {
+  position:relative; z-index:1;
+  max-width: 1280px; margin:0 auto; padding: 60px 24px;
+}
+.section-header {
+  display:flex; align-items:center; gap:16px; margin-bottom:36px;
+}
+.section-icon {
+  width:48px; height:48px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px;
+}
+.section-title { font-size:26px; font-weight:800; }
+.section-sub { font-size:14px; color:var(--text3); margin-top:2px; }
+.section-line { flex:1; height:1px; background: var(--border); }
+
+/* ─── TOOLS GRID ─── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.tool-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  position:relative; overflow:hidden;
+}
+.tool-card::before {
+  content:'';
+  position:absolute; inset:0;
+  opacity:0; transition:opacity 0.3s;
+  border-radius: inherit;
+}
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: var(--glow), 0 20px 60px rgba(0,0,0,0.3);
+}
+.tool-card:hover::before { opacity:1; }
+.tool-card.c-purple::before { background: linear-gradient(135deg, rgba(124,92,252,0.08), transparent); }
+.tool-card.c-green::before { background: linear-gradient(135deg, rgba(61,220,151,0.08), transparent); }
+.tool-card.c-orange::before { background: linear-gradient(135deg, rgba(255,140,66,0.08), transparent); }
+.tool-card.c-pink::before { background: linear-gradient(135deg, rgba(255,92,141,0.08), transparent); }
+.tool-card.c-cyan::before { background: linear-gradient(135deg, rgba(54,217,217,0.08), transparent); }
+.tool-card.c-yellow::before { background: linear-gradient(135deg, rgba(255,209,102,0.08), transparent); }
+.tool-emoji {
+  font-size:32px; margin-bottom:14px;
+  display:block; line-height:1;
+}
+.tool-name { font-size:16px; font-weight:700; margin-bottom:6px; }
+.tool-desc { font-size:13px; color:var(--text3); line-height:1.5; }
+.tool-badge {
+  position:absolute; top:16px; left:16px;
+  font-size:10px; font-weight:700; padding:3px 8px; border-radius:999px;
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+.badge-new { background: rgba(61,220,151,0.15); color:var(--green); border:1px solid rgba(61,220,151,0.3); }
+.badge-ai { background: rgba(124,92,252,0.15); color:var(--accent3); border:1px solid rgba(124,92,252,0.3); }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:2000;
+  background: rgba(0,0,0,0.7); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+  opacity:0; pointer-events:none; transition: opacity 0.3s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  width: 100%; max-width: 700px;
+  max-height: 90vh; overflow-y:auto;
+  padding: 32px;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.3s;
+  position:relative;
+}
+.modal-overlay.open .modal { transform: none; }
+.modal-close {
+  position:absolute; top:20px; left:20px;
+  width:36px; height:36px; border-radius:10px;
+  background:var(--bg3); border:1px solid var(--border);
+  color:var(--text2); cursor:pointer; font-size:18px;
+  display:flex; align-items:center; justify-content:center;
+}
+.modal-close:hover { background:var(--pink); color:#fff; }
+.modal-title { font-size:22px; font-weight:800; margin-bottom:8px; }
+.modal-sub { font-size:14px; color:var(--text3); margin-bottom:24px; }
+
+/* ─── TOOL COMPONENTS ─── */
+.tool-area {
+  background: var(--bg3); border:1px solid var(--border);
+  border-radius:var(--radius-sm); padding:20px;
+}
+textarea.tool-input, input.tool-input {
+  width:100%; background: var(--bg4); border:1px solid var(--border2);
+  border-radius:10px; padding:14px; color:var(--text); font-family:inherit; font-size:14px;
+  resize:vertical; outline:none; transition:border 0.2s;
+}
+textarea.tool-input:focus, input.tool-input:focus { border-color:var(--accent); }
+.tool-btn {
+  padding:11px 24px; border-radius:10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color:#fff; border:none; font-family:inherit; font-size:14px; font-weight:600;
+  cursor:pointer; transition:all 0.2s; margin-top:12px;
+}
+.tool-btn:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(124,92,252,0.4); }
+.tool-btn.secondary {
+  background:var(--bg4); border:1px solid var(--border2); color:var(--text2);
+  box-shadow:none;
+}
+.tool-btn.secondary:hover { border-color:var(--accent); color:var(--accent3); }
+.tool-result {
+  margin-top:16px; background:var(--bg4); border:1px solid var(--border);
+  border-radius:10px; padding:16px; font-size:14px; line-height:1.7;
+  min-height:60px; white-space:pre-wrap; font-family:'Space Mono',monospace;
+}
+.row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-top:12px; }
+
+/* ─── CALCULATOR ─── */
+.calc-display {
+  background:var(--bg); border:1px solid var(--border2);
+  border-radius:12px; padding:20px 16px 12px;
+  text-align:left; margin-bottom:12px;
+}
+.calc-expr { font-size:13px; color:var(--text3); font-family:'Space Mono',monospace; min-height:20px; }
+.calc-val { font-size:36px; font-weight:700; font-family:'Space Mono',monospace; letter-spacing:-1px; }
+.calc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.calc-btn {
+  padding:16px 8px; border-radius:10px; border:1px solid var(--border);
+  background:var(--bg3); color:var(--text); font-size:16px; font-family:inherit; font-weight:600;
+  cursor:pointer; transition:all 0.15s;
+}
+.calc-btn:hover { background:var(--bg4); border-color:var(--accent); }
+.calc-btn.op { background: rgba(124,92,252,0.15); color:var(--accent3); border-color:rgba(124,92,252,0.2); }
+.calc-btn.eq { background: linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent; }
+.calc-btn.eq:hover { box-shadow:0 4px 16px rgba(124,92,252,0.4); }
+.calc-btn.clear { background:rgba(255,92,141,0.15); color:var(--pink); border-color:rgba(255,92,141,0.2); }
+
+/* ─── POMODORO ─── */
+.pomo-ring { position:relative; width:200px; height:200px; margin:0 auto 24px; }
+.pomo-ring svg { transform:rotate(-90deg); }
+.pomo-circle-bg { fill:none; stroke:var(--bg4); stroke-width:10; }
+.pomo-circle-fg { fill:none; stroke-width:10; stroke-linecap:round; transition: stroke-dashoffset 1s linear; }
+.pomo-time {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  font-family:'Space Mono',monospace;
+}
+.pomo-time-num { font-size:38px; font-weight:700; }
+.pomo-time-label { font-size:12px; color:var(--text3); margin-top:2px; }
+.pomo-controls { display:flex; gap:10px; justify-content:center; }
+.pomo-mode-tabs { display:flex; gap:6px; justify-content:center; margin-bottom:20px; }
+.pomo-tab {
+  padding:7px 16px; border-radius:8px; border:1px solid var(--border);
+  background:var(--bg3); color:var(--text3); font-size:13px; font-family:inherit;
+  cursor:pointer; font-weight:500; transition:all 0.2s;
+}
+.pomo-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* ─── GPA ─── */
+.gpa-courses { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+.gpa-row { display:grid; grid-template-columns:1fr 100px 100px 40px; gap:8px; align-items:center; }
+.gpa-row input, .gpa-row select {
+  background:var(--bg4); border:1px solid var(--border2); border-radius:8px;
+  padding:10px 12px; color:var(--text); font-family:inherit; font-size:14px; outline:none;
+}
+.gpa-row input:focus, .gpa-row select:focus { border-color:var(--accent); }
+.gpa-row select option { background:var(--bg3); }
+.gpa-del { background:rgba(255,92,141,0.1); border:1px solid rgba(255,92,141,0.2); border-radius:8px; color:var(--pink); cursor:pointer; font-size:16px; padding:8px; }
+.gpa-result { text-align:center; padding:24px; background:var(--bg3); border-radius:12px; border:1px solid var(--border); }
+.gpa-num { font-size:52px; font-weight:900; font-family:'Space Mono',monospace; }
+
+/* ─── NOTES ─── */
+.notes-list { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; max-height:300px; overflow-y:auto; }
+.note-item {
+  background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:14px;
+  display:flex; justify-content:space-between; align-items:start; gap:12px;
+  animation: fadeUp 0.3s ease;
+}
+.note-text { font-size:14px; line-height:1.5; flex:1; }
+.note-time { font-size:11px; color:var(--text3); flex-shrink:0; font-family:'Space Mono',monospace; }
+.note-del { background:none; border:none; color:var(--text3); cursor:pointer; font-size:14px; flex-shrink:0; }
+.note-del:hover { color:var(--pink); }
+
+/* ─── STUDY PLANNER ─── */
+.planner-days { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:16px; }
+.planner-day { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:10px 6px; text-align:center; cursor:pointer; transition:all 0.2s; }
+.planner-day.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.planner-day .day-name { font-size:11px; color:var(--text3); margin-bottom:4px; }
+.planner-day.active .day-name { color:rgba(255,255,255,0.7); }
+.planner-day .day-num { font-size:18px; font-weight:700; font-family:'Space Mono',monospace; }
+.schedule-list { display:flex; flex-direction:column; gap:8px; }
+.schedule-item {
+  display:flex; align-items:center; gap:12px;
+  background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px 16px;
+}
+.schedule-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.schedule-subject { font-size:14px; font-weight:600; flex:1; }
+.schedule-time { font-size:12px; color:var(--text3); font-family:'Space Mono',monospace; }
+
+/* ─── AI TOOLS SECTION ─── */
+.ai-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
+.ai-card {
+  background: linear-gradient(135deg, var(--card) 0%, var(--bg3) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding:24px; position:relative; overflow:hidden;
+  cursor:pointer; transition:all 0.25s;
+}
+.ai-card::after {
+  content:'';
+  position:absolute; top:-40%; right:-20%;
+  width:180px; height:180px; border-radius:50%;
+  opacity:0.06; transition:opacity 0.3s;
+}
+.ai-card.ai-purple::after { background:var(--accent); }
+.ai-card.ai-green::after { background:var(--green); }
+.ai-card.ai-orange::after { background:var(--orange); }
+.ai-card.ai-pink::after { background:var(--pink); }
+.ai-card:hover { transform:translateY(-4px); border-color:var(--accent2); box-shadow:var(--glow); }
+.ai-card:hover::after { opacity:0.12; }
+.ai-icon-wrap {
+  width:52px; height:52px; border-radius:14px; margin-bottom:16px;
+  display:flex; align-items:center; justify-content:center; font-size:24px;
+}
+.ai-purple .ai-icon-wrap { background:rgba(124,92,252,0.15); }
+.ai-green .ai-icon-wrap { background:rgba(61,220,151,0.15); }
+.ai-orange .ai-icon-wrap { background:rgba(255,140,66,0.15); }
+.ai-pink .ai-icon-wrap { background:rgba(255,92,141,0.15); }
+.ai-title { font-size:17px; font-weight:700; margin-bottom:6px; }
+.ai-desc { font-size:13px; color:var(--text3); line-height:1.5; margin-bottom:16px; }
+.ai-link {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:13px; font-weight:600; color:var(--accent3); text-decoration:none;
+  padding:8px 14px; border-radius:8px; background:rgba(124,92,252,0.1);
+  border:1px solid rgba(124,92,252,0.2); transition:all 0.2s;
+}
+.ai-link:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* ─── RESOURCES SECTION ─── */
+.res-categories { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+.res-cat-btn {
+  padding:8px 18px; border-radius:999px; border:1px solid var(--border);
+  background:var(--bg3); color:var(--text3); font-size:13px; font-family:inherit;
+  cursor:pointer; font-weight:500; transition:all 0.2s;
+}
+.res-cat-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.res-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:12px; }
+.res-card {
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm);
+  padding:18px; text-decoration:none; color:var(--text); transition:all 0.2s;
+  display:flex; flex-direction:column; gap:8px;
+}
+.res-card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--glow); }
+.res-card-icon { font-size:28px; }
+.res-card-name { font-size:15px; font-weight:700; }
+.res-card-desc { font-size:12px; color:var(--text3); line-height:1.4; }
+.res-card-tag {
+  align-self:flex-start; font-size:10px; font-weight:700; padding:2px 8px;
+  border-radius:999px; text-transform:uppercase; letter-spacing:0.5px;
+}
+
+/* ─── SHARE CARD ─── */
+.share-section { text-align:center; padding:60px 24px; }
+.share-card-preview {
+  max-width:400px; margin:0 auto 24px;
+  background: linear-gradient(135deg, #1a0a3a, #0a1a2a);
+  border:1px solid rgba(124,92,252,0.3); border-radius:20px; padding:32px;
+  box-shadow: 0 20px 80px rgba(124,92,252,0.2);
+}
+.share-card-preview.generated {
+  background: linear-gradient(135deg, var(--accent2), #0a1a3a);
+}
+.share-logo-sm { font-size:14px; font-weight:900; color:var(--accent3); margin-bottom:20px; }
+.share-hours { font-size:64px; font-weight:900; font-family:'Space Mono',monospace; color:#fff; line-height:1; }
+.share-msg { font-size:16px; color:rgba(255,255,255,0.7); margin-top:8px; }
+.share-tag { font-size:13px; color:var(--accent3); margin-top:16px; font-weight:600; }
+.share-controls { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.share-input-row { display:flex; gap:10px; max-width:320px; margin:0 auto 20px; }
+.share-input-row input { flex:1; }
+
+/* ─── FOCUS MODE ─── */
+.focus-overlay {
+  position:fixed; inset:0; z-index:3000;
+  background: #05050a;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity 0.5s;
+}
+.focus-overlay.active { opacity:1; pointer-events:all; }
+.focus-exit {
+  position:absolute; top:24px; right:24px;
+  padding:8px 18px; border-radius:10px;
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.5); cursor:pointer; font-family:inherit; font-size:14px;
+}
+.focus-exit:hover { background:rgba(255,92,141,0.2); color:var(--pink); border-color:var(--pink); }
+.focus-title { color:rgba(255,255,255,0.2); font-size:13px; letter-spacing:3px; text-transform:uppercase; margin-bottom:40px; }
+.focus-pomo-big .pomo-time-num { font-size:72px; color:#fff; }
+.focus-music { margin-top:40px; }
+.music-title { color:rgba(255,255,255,0.3); font-size:12px; text-align:center; margin-bottom:12px; }
+.music-btns { display:flex; gap:8px; justify-content:center; }
+.music-btn {
+  padding:8px 16px; border-radius:8px; border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); cursor:pointer;
+  font-size:13px; font-family:inherit; transition:all 0.2s;
+}
+.music-btn.active { border-color:var(--accent3); color:var(--accent3); background:rgba(124,92,252,0.1); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { transform:scale(1); }
+  50%      { transform:scale(1.02); }
+}
+.pomo-running .pomo-time-num { animation: pulse 2s ease infinite; }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top:1px solid var(--border); text-align:center;
+  padding:32px; color:var(--text3); font-size:13px; position:relative; z-index:1;
+}
+footer strong { color:var(--text2); }
+
+@media (max-width:768px) {
+  nav { padding:0 16px; }
+  .nav-links { display:none; }
+  .hero { padding:110px 20px 60px; }
+  .tools-grid { grid-template-columns:1fr 1fr; }
+  .planner-days { grid-template-columns:repeat(7,1fr); gap:3px; }
+  .planner-day { padding:6px 2px; }
+  .planner-day .day-num { font-size:14px; }
+  .gpa-row { grid-template-columns:1fr 80px 80px 36px; }
+}
+@media (max-width:480px) {
+  .tools-grid { grid-template-columns:1fr; }
+  .res-grid { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>Uni</span>Box 📚</div>
+  <ul class="nav-links">
+    <li><a href="#tools">ابزارها</a></li>
+    <li><a href="#ai">هوش مصنوعی</a></li>
+    <li><a href="#resources">سایت‌ها</a></li>
+    <li><a href="#iran">🇮🇷 ایرانی</a></li>
+    <li><a href="#share">اشتراک</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-icon" id="themeBtn" title="تغییر تم">🌙</button>
+    <button class="btn-focus" onclick="openFocus()">⚡ Focus Mode</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-tag">🎓 برای دانشجوهای ایرانی</div>
+  <h1>همه چیز برای<br><em>موفقیت دانشجویی</em></h1>
+  <p>ابزارها، منابع و هوش مصنوعی — یکجا. هر روز. رایگان.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">8+</div><div class="stat-label">ابزار داخلی</div></div>
+    <div class="stat"><div class="stat-num">40+</div><div class="stat-label">سایت کاربردی</div></div>
+    <div class="stat"><div class="stat-num">14</div><div class="stat-label">ابزار AI</div></div>
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">سایت ایرانی</div></div>
+  </div>
+</section>
+
+<!-- SECTION 1: TOOLS -->
+<section class="section" id="tools">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(124,92,252,0.15)">🧰</div>
+    <div>
+      <div class="section-title">ابزارهای دانشجویی</div>
+      <div class="section-sub">همه چیز در مرورگر — بدون نصب، بدون آپلود</div>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="tools-grid">
+    <div class="tool-card c-purple" onclick="openModal('calc')">
+      <span class="tool-emoji">🧮</span>
+      <div class="tool-name">ماشین حساب علمی</div>
+      <div class="tool-desc">محاسبات پیشرفته، توابع علمی، تاریخچه</div>
+    </div>
+    <div class="tool-card c-orange" onclick="openModal('pomodoro')">
+      <span class="tool-badge badge-new">پرکاربرد</span>
+      <span class="tool-emoji">⏱</span>
+      <div class="tool-name">تایمر پومودورو</div>
+      <div class="tool-desc">مدیریت زمان مطالعه با روش پومودورو</div>
+    </div>
+    <div class="tool-card c-green" onclick="openModal('gpa')">
+      <span class="tool-emoji">📊</span>
+      <div class="tool-name">محاسبه‌گر GPA</div>
+      <div class="tool-desc">میانگین نمرات و محاسبه معدل ترم</div>
+    </div>
+    <div class="tool-card c-pink" onclick="openModal('notes')">
+      <span class="tool-emoji">📝</span>
+      <div class="tool-name">یادداشت سریع</div>
+      <div class="tool-desc">ذخیره در مرورگر — همیشه در دسترس</div>
+    </div>
+    <div class="tool-card c-cyan" onclick="openModal('planner')">
+      <span class="tool-emoji">🗓</span>
+      <div class="tool-name">برنامه‌ریز درسی</div>
+      <div class="tool-desc">برنامه هفتگی + مدیریت دروس</div>
+    </div>
+    <div class="tool-card c-yellow" onclick="openModal('summarize')">
+      <span class="tool-badge badge-ai">AI-ready</span>
+      <span class="tool-emoji">📄</span>
+      <div class="tool-name">خلاصه‌ساز متن</div>
+      <div class="tool-desc">متن طولانی را سریع خلاصه کن</div>
+    </div>
+    <div class="tool-card c-purple" onclick="openModal('wordcount')">
+      <span class="tool-emoji">📏</span>
+      <div class="tool-name">شمارشگر کلمات</div>
+      <div class="tool-desc">کلمات، کاراکترها، پاراگراف و زمان مطالعه</div>
+    </div>
+    <div class="tool-card c-green" onclick="openModal('flashcard')">
+      <span class="tool-badge badge-new">جدید</span>
+      <span class="tool-emoji">🃏</span>
+      <div class="tool-name">فلش‌کارت</div>
+      <div class="tool-desc">کارت‌های مرور برای حفظ مطالب</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: AI TOOLS -->
+<section class="section" id="ai" style="background:linear-gradient(180deg,transparent,rgba(124,92,252,0.04),transparent); border-radius:32px;">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(124,92,252,0.15)">🤖</div>
+    <div>
+      <div class="section-title">ابزارهای هوش مصنوعی</div>
+      <div class="section-sub">۱۴ ابزار AI برای کمک به درس و تحقیق</div>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="ai-grid">
+    <div class="ai-card ai-purple">
+      <div class="ai-icon-wrap">🧠</div>
+      <div class="ai-title">خلاصه‌ساز PDF هوشمند</div>
+      <div class="ai-desc">فایل PDF درسی را آپلود کن، خلاصه کامل بگیر</div>
+      <a class="ai-link" href="https://chatpdf.com" target="_blank">↗ ChatPDF</a>
+    </div>
+    <div class="ai-card ai-green">
+      <div class="ai-icon-wrap">🃏</div>
+      <div class="ai-title">تبدیل متن به فلش‌کارت</div>
+      <div class="ai-desc">از جزوه‌ات فلش‌کارت بساز و سریع‌تر حفظ کن</div>
+      <a class="ai-link" href="https://quizlet.com" target="_blank">↗ Quizlet AI</a>
+    </div>
+    <div class="ai-card ai-orange">
+      <div class="ai-icon-wrap">📝</div>
+      <div class="ai-title">تولید جزوه از متن</div>
+      <div class="ai-desc">نوت‌های پراکنده را به جزوه حرفه‌ای تبدیل کن</div>
+      <a class="ai-link" href="https://notegpt.io" target="_blank">↗ NoteGPT</a>
+    </div>
+    <div class="ai-card ai-pink">
+      <div class="ai-icon-wrap">🌍</div>
+      <div class="ai-title">ترجمه هوشمند</div>
+      <div class="ai-desc">ترجمه دقیق متون علمی و آکادمیک</div>
+      <a class="ai-link" href="https://deepl.com" target="_blank">↗ DeepL</a>
+    </div>
+    <div class="ai-card ai-purple">
+      <div class="ai-icon-wrap">✍️</div>
+      <div class="ai-title">ویرایش و بهبود نوشتار</div>
+      <div class="ai-desc">متن انگلیسی‌ات را حرفه‌ای‌تر کن</div>
+      <a class="ai-link" href="https://quillbot.com" target="_blank">↗ QuillBot</a>
+    </div>
+    <div class="ai-card ai-green">
+      <div class="ai-icon-wrap">🔬</div>
+      <div class="ai-title">جستجوی تحقیقاتی AI</div>
+      <div class="ai-desc">منابع علمی معتبر با هوش مصنوعی پیدا کن</div>
+      <a class="ai-link" href="https://consensus.app" target="_blank">↗ Consensus</a>
+    </div>
+    <div class="ai-card ai-orange">
+      <div class="ai-icon-wrap">🎯</div>
+      <div class="ai-title">چت با AI (عمومی)</div>
+      <div class="ai-desc">سوال درسی داری؟ Claude کمکت می‌کنه</div>
+      <a class="ai-link" href="https://claude.ai" target="_blank">↗ Claude AI</a>
+    </div>
+    <div class="ai-card ai-pink">
+      <div class="ai-icon-wrap">📊</div>
+      <div class="ai-title">ارائه و اسلاید هوشمند</div>
+      <div class="ai-desc">پاورپوینت درسی در چند ثانیه بساز</div>
+      <a class="ai-link" href="https://gamma.app" target="_blank">↗ Gamma</a>
+    </div>
+    <div class="ai-card ai-purple">
+      <div class="ai-icon-wrap">💬</div>
+      <div class="ai-title">ChatGPT</div>
+      <div class="ai-desc">قوی‌ترین چت‌بات AI برای همه سوالات درسی</div>
+      <a class="ai-link" href="https://chat.openai.com" target="_blank">↗ ChatGPT</a>
+    </div>
+    <div class="ai-card ai-green">
+      <div class="ai-icon-wrap">🔎</div>
+      <div class="ai-title">Perplexity AI</div>
+      <div class="ai-desc">موتور جستجوی AI با منابع زنده اینترنتی</div>
+      <a class="ai-link" href="https://perplexity.ai" target="_blank">↗ Perplexity</a>
+    </div>
+    <div class="ai-card ai-orange">
+      <div class="ai-icon-wrap">🎨</div>
+      <div class="ai-title">Napkin AI</div>
+      <div class="ai-desc">متن رو تبدیل به اینفوگرافیک و دیاگرام کن</div>
+      <a class="ai-link" href="https://napkin.ai" target="_blank">↗ Napkin AI</a>
+    </div>
+    <div class="ai-card ai-pink">
+      <div class="ai-icon-wrap">🗣</div>
+      <div class="ai-title">ElevenLabs</div>
+      <div class="ai-desc">متن درسی را تبدیل به صدا کن — پادکست شخصی</div>
+      <a class="ai-link" href="https://elevenlabs.io" target="_blank">↗ ElevenLabs</a>
+    </div>
+    <div class="ai-card ai-purple">
+      <div class="ai-icon-wrap">🧩</div>
+      <div class="ai-title">Mindmap AI</div>
+      <div class="ai-desc">از متن جزوه نقشه ذهنی بساز</div>
+      <a class="ai-link" href="https://mindmapai.app" target="_blank">↗ MindMap AI</a>
+    </div>
+    <div class="ai-card ai-green">
+      <div class="ai-icon-wrap">📖</div>
+      <div class="ai-title">Explainpaper</div>
+      <div class="ai-desc">مقالات علمی پیچیده را ساده توضیح میده</div>
+      <a class="ai-link" href="https://explainpaper.com" target="_blank">↗ Explainpaper</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: RESOURCES -->
+<section class="section" id="resources">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(54,217,217,0.15)">🌐</div>
+    <div>
+      <div class="section-title">سایت‌های کاربردی</div>
+      <div class="section-sub">لیست نجات‌بخش دانشجوها — ذخیره کن!</div>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="res-categories" id="resCats">
+    <button class="res-cat-btn active" onclick="filterRes('all',this)">همه</button>
+    <button class="res-cat-btn" onclick="filterRes('learn',this)">📚 آموزش</button>
+    <button class="res-cat-btn" onclick="filterRes('research',this)">🔬 تحقیق</button>
+    <button class="res-cat-btn" onclick="filterRes('write',this)">✍️ نوشتار</button>
+    <button class="res-cat-btn" onclick="filterRes('file',this)">📁 فایل</button>
+    <button class="res-cat-btn" onclick="filterRes('tool',this)">🛠 ابزار</button>
+    <button class="res-cat-btn" onclick="filterRes('math',this)">🧮 ریاضی</button>
+    <button class="res-cat-btn" onclick="filterRes('lang',this)">🌍 زبان</button>
+  </div>
+  <div class="res-grid" id="resGrid"></div>
+</section>
+
+<!-- SECTION 4: IRAN SITES -->
+<section class="section" id="iran">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(61,220,151,0.15)">🇮🇷</div>
+    <div>
+      <div class="section-title">سایت‌های داخلی (ایرانی)</div>
+      <div class="section-sub">بهترین پلتفرم‌های ایرانی برای دانشجوها</div>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="iran-cats" id="iranCats">
+    <button class="res-cat-btn active" onclick="filterIran('all',this)">همه</button>
+    <button class="res-cat-btn" onclick="filterIran('learn',this)">📚 آموزش</button>
+    <button class="res-cat-btn" onclick="filterIran('research',this)">🔬 تحقیق</button>
+    <button class="res-cat-btn" onclick="filterIran('tool',this)">🛠 ابزار</button>
+    <button class="res-cat-btn" onclick="filterIran('translate',this)">🌐 ترجمه</button>
+    <button class="res-cat-btn" onclick="filterIran('uni',this)">🏛 دانشگاه</button>
+  </div>
+  <div class="res-grid" id="iranGrid"></div>
+</section>
+
+<!-- SECTION 5: SHARE -->
+<section class="section" id="share">
+  <div style="text-align:center;margin-bottom:32px;">
+    <div class="section-title" style="font-size:28px;margin-bottom:8px">📲 کارت مطالعه‌ات رو به اشتراک بذار</div>
+    <div style="font-size:15px;color:var(--text3)">بزن تو استوری، بیو، یا واتساپ — دوستات رو تحت تأثیر بذار 🔥</div>
+  </div>
+
+  <!-- Input row -->
+  <div style="max-width:460px;margin:0 auto 28px;display:flex;gap:10px;flex-wrap:wrap;">
+    <input class="tool-input" type="number" id="shareHours" placeholder="ساعت مطالعه" min="0" max="24" value="3" style="flex:1;min-width:120px" oninput="liveShareUpdate()">
+    <input class="tool-input" type="text" id="shareName" placeholder="اسمت" value="دانشجو" style="flex:1;min-width:120px" oninput="liveShareUpdate()">
+    <select id="shareSubject" onchange="liveShareUpdate()" style="flex:1;min-width:140px;background:var(--bg4);border:1px solid var(--border2);border-radius:10px;padding:11px 14px;color:var(--text);font-family:inherit;font-size:14px;outline:none;">
+      <option value="📚 مطالعه عمومی">📚 مطالعه عمومی</option>
+      <option value="🧮 ریاضی">🧮 ریاضی</option>
+      <option value="⚗️ شیمی">⚗️ شیمی</option>
+      <option value="🔬 فیزیک">🔬 فیزیک</option>
+      <option value="💻 برنامه‌نویسی">💻 برنامه‌نویسی</option>
+      <option value="📖 ادبیات">📖 ادبیات</option>
+      <option value="🌍 زبان انگلیسی">🌍 زبان انگلیسی</option>
+      <option value="🏛 تاریخ">🏛 تاریخ</option>
+      <option value="⚖️ حقوق">⚖️ حقوق</option>
+      <option value="🏥 پزشکی">🏥 پزشکی</option>
+    </select>
+  </div>
+
+  <!-- Two column: card preview + copy preview -->
+  <div style="max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;" class="share-layout">
+
+    <!-- CARD VISUAL -->
+    <div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;text-align:center;letter-spacing:1px;text-transform:uppercase;">پیش‌نمایش کارت</div>
+      <div class="share-card-preview" id="shareCard">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div class="share-logo-sm">UniBox 📚</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);font-family:'Space Mono',monospace" id="shareDate"></div>
+        </div>
+        <div class="share-hours" id="shareHoursDisplay">3</div>
+        <div class="share-msg">ساعت مطالعه امروز</div>
+        <div style="margin-top:12px;font-size:14px;color:rgba(255,255,255,0.6)" id="shareSubjectDisplay">📚 مطالعه عمومی</div>
+        <div style="margin-top:20px;display:flex;gap:6px;flex-wrap:wrap;" id="shareTags">
+          <span style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:999px;font-size:11px;color:rgba(255,255,255,0.5)">#UniBox</span>
+          <span style="background:rgba(255,255,255,0.08);padding:4px 10px;border-radius:999px;font-size:11px;color:rgba(255,255,255,0.5)">#مطالعه_هوشمند</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COPY PREVIEW (phone mockup style) -->
+    <div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px;text-align:center;letter-spacing:1px;text-transform:uppercase;">متنی که کپی میشه</div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:16px;overflow:hidden;">
+        <!-- Phone top bar -->
+        <div style="background:var(--bg4);padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);">
+          <div style="width:8px;height:8px;border-radius:50%;background:#ff5c5c"></div>
+          <div style="width:8px;height:8px;border-radius:50%;background:#ffbd2e"></div>
+          <div style="width:8px;height:8px;border-radius:50%;background:#27c93f"></div>
+          <div style="font-size:11px;color:var(--text3);margin-right:auto">📱 پیش‌نمایش موبایل / بیو</div>
+        </div>
+        <!-- Message bubble -->
+        <div style="padding:16px;">
+          <div style="background:var(--accent);border-radius:16px 16px 4px 16px;padding:14px 16px;max-width:90%;margin-right:auto;">
+            <div style="font-size:13px;line-height:1.8;color:#fff;white-space:pre-line;word-break:break-word" id="copyPreviewText"></div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:6px;text-align:right">الان · دیده شد ✓✓</div>
+        </div>
+        <!-- Bio preview -->
+        <div style="border-top:1px solid var(--border);padding:14px 16px;">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:8px">📌 یا تو بیو پروفایلت:</div>
+          <div style="background:var(--bg4);border-radius:10px;padding:12px;font-size:12px;line-height:1.7;color:var(--text2);white-space:pre-line;word-break:break-word;border:1px solid var(--border2)" id="bioPreviewText"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="tool-btn" style="flex:1;font-size:13px;" onclick="copyShareText()">📋 کپی متن کامل</button>
+        <button class="tool-btn secondary" style="flex:1;font-size:13px;" onclick="copyBioText()">📌 کپی بیو</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  @media(max-width:600px){.share-layout{grid-template-columns:1fr!important;}}
+  </style>
+</section>
+
+<footer>
+  <p>ساخته شده با ❤️ برای دانشجوهای ایرانی &nbsp;·&nbsp; <strong>UniBox</strong> &nbsp;·&nbsp; همه ابزارها رایگان و آفلاین</p>
+</footer>
+
+<!-- ───────────── MODALS ───────────── -->
+
+<!-- CALCULATOR MODAL -->
+<div class="modal-overlay" id="modal-calc">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('calc')">✕</button>
+    <div class="modal-title">🧮 ماشین حساب علمی</div>
+    <div class="modal-sub">محاسبات پیشرفته در مرورگر</div>
+    <div class="calc-display">
+      <div class="calc-expr" id="calcExpr"></div>
+      <div class="calc-val" id="calcVal">0</div>
+    </div>
+    <div class="calc-grid">
+      <button class="calc-btn clear" onclick="calcClear()">C</button>
+      <button class="calc-btn op" onclick="calcInput('(')">(</button>
+      <button class="calc-btn op" onclick="calcInput(')')">)</button>
+      <button class="calc-btn op" onclick="calcInput('/')">÷</button>
+      <button class="calc-btn" onclick="calcInput('7')">7</button>
+      <button class="calc-btn" onclick="calcInput('8')">8</button>
+      <button class="calc-btn" onclick="calcInput('9')">9</button>
+      <button class="calc-btn op" onclick="calcInput('*')">×</button>
+      <button class="calc-btn" onclick="calcInput('4')">4</button>
+      <button class="calc-btn" onclick="calcInput('5')">5</button>
+      <button class="calc-btn" onclick="calcInput('6')">6</button>
+      <button class="calc-btn op" onclick="calcInput('-')">−</button>
+      <button class="calc-btn" onclick="calcInput('1')">1</button>
+      <button class="calc-btn" onclick="calcInput('2')">2</button>
+      <button class="calc-btn" onclick="calcInput('3')">3</button>
+      <button class="calc-btn op" onclick="calcInput('+')">+</button>
+      <button class="calc-btn op" onclick="calcSci('Math.sqrt(')">√</button>
+      <button class="calc-btn" onclick="calcInput('0')">0</button>
+      <button class="calc-btn" onclick="calcInput('.')">.</button>
+      <button class="calc-btn eq" onclick="calcEval()">=</button>
+      <button class="calc-btn op" onclick="calcSci('Math.pow(')">xⁿ</button>
+      <button class="calc-btn op" onclick="calcSci('Math.sin(')">sin</button>
+      <button class="calc-btn op" onclick="calcSci('Math.cos(')">cos</button>
+      <button class="calc-btn op" onclick="calcSci('Math.log(')">log</button>
+    </div>
+  </div>
+</div>
+
+<!-- POMODORO MODAL -->
+<div class="modal-overlay" id="modal-pomodoro">
+  <div class="modal" style="text-align:center;">
+    <button class="modal-close" onclick="closeModal('pomodoro')">✕</button>
+    <div class="modal-title">⏱ تایمر پومودورو</div>
+    <div class="modal-sub">تمرکز ۲۵ دقیقه‌ای + استراحت</div>
+    <div class="pomo-mode-tabs">
+      <button class="pomo-tab active" onclick="setPomoMode(25*60,'focus',this)">🎯 تمرکز</button>
+      <button class="pomo-tab" onclick="setPomoMode(5*60,'short',this)">☕ استراحت کوتاه</button>
+      <button class="pomo-tab" onclick="setPomoMode(15*60,'long',this)">🛌 استراحت بلند</button>
+    </div>
+    <div class="pomo-ring">
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        <circle class="pomo-circle-bg" cx="100" cy="100" r="88"/>
+        <circle class="pomo-circle-fg" id="pomoCircle" cx="100" cy="100" r="88"
+          stroke="url(#pomoGrad)"
+          stroke-dasharray="553"
+          stroke-dashoffset="0"/>
+        <defs>
+          <linearGradient id="pomoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#7c5cfc"/>
+            <stop offset="100%" style="stop-color:#3ddc97"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="pomo-time">
+        <div class="pomo-time-num" id="pomoTime">25:00</div>
+        <div class="pomo-time-label" id="pomoLabel">تمرکز</div>
+      </div>
+    </div>
+    <div class="pomo-controls">
+      <button class="tool-btn secondary" onclick="pomoReset()">↺ ریست</button>
+      <button class="tool-btn" id="pomoBtn" onclick="pomoToggle()">▶ شروع</button>
+    </div>
+    <div id="pomoSessions" style="margin-top:16px;font-size:13px;color:var(--text3)">سشن‌های امروز: <b id="pomoCount" style="color:var(--accent3)">0</b></div>
+  </div>
+</div>
+
+<!-- GPA MODAL -->
+<div class="modal-overlay" id="modal-gpa">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('gpa')">✕</button>
+    <div class="modal-title">📊 محاسبه‌گر GPA</div>
+    <div class="modal-sub">نمرات و واحدها را وارد کن</div>
+    <div class="gpa-courses" id="gpaCourses"></div>
+    <button class="tool-btn secondary" onclick="addGpaCourse()">+ افزودن درس</button>
+    <button class="tool-btn" onclick="calcGPA()" style="margin-right:10px">محاسبه معدل</button>
+    <div class="gpa-result" id="gpaResult" style="display:none;margin-top:16px;">
+      <div style="font-size:13px;color:var(--text3);margin-bottom:4px">معدل ترم شما</div>
+      <div class="gpa-num" id="gpaNum">0.00</div>
+      <div id="gpaGrade" style="margin-top:8px;font-size:14px;color:var(--text2)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTES MODAL -->
+<div class="modal-overlay" id="modal-notes">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('notes')">✕</button>
+    <div class="modal-title">📝 یادداشت سریع</div>
+    <div class="modal-sub">ذخیره خودکار در مرورگر</div>
+    <div class="notes-list" id="notesList"></div>
+    <textarea class="tool-input" id="noteInput" rows="3" placeholder="یادداشت جدید..."></textarea>
+    <div class="row">
+      <button class="tool-btn" onclick="addNote()">💾 ذخیره</button>
+      <button class="tool-btn secondary" onclick="clearNotes()">🗑 پاک کردن همه</button>
+    </div>
+  </div>
+</div>
+
+<!-- PLANNER MODAL -->
+<div class="modal-overlay" id="modal-planner">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('planner')">✕</button>
+    <div class="modal-title">🗓 برنامه‌ریز درسی</div>
+    <div class="modal-sub">برنامه هفتگی‌ات را مدیریت کن</div>
+    <div class="planner-days" id="plannerDays"></div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:13px;color:var(--text3);margin-bottom:8px">افزودن کلاس:</div>
+      <div class="row">
+        <input class="tool-input" id="planSubject" placeholder="نام درس" style="flex:1;min-width:120px">
+        <input class="tool-input" id="planTime" type="time" style="width:110px">
+        <button class="tool-btn" onclick="addClass()">+</button>
+      </div>
+    </div>
+    <div class="schedule-list" id="scheduleList"></div>
+  </div>
+</div>
+
+<!-- SUMMARIZE MODAL -->
+<div class="modal-overlay" id="modal-summarize">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('summarize')">✕</button>
+    <div class="modal-title">📄 خلاصه‌ساز متن</div>
+    <div class="modal-sub">متن درسی را جایگذار کن</div>
+    <textarea class="tool-input" id="summarizeInput" rows="6" placeholder="متن خود را اینجا وارد کنید..."></textarea>
+    <div class="row">
+      <button class="tool-btn" onclick="summarizeText()">✨ خلاصه کن</button>
+      <button class="tool-btn secondary" onclick="document.getElementById('summarizeInput').value=''">🗑 پاک کن</button>
+    </div>
+    <div class="tool-result" id="summarizeResult" style="display:none"></div>
+  </div>
+</div>
+
+<!-- WORDCOUNT MODAL -->
+<div class="modal-overlay" id="modal-wordcount">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('wordcount')">✕</button>
+    <div class="modal-title">📏 شمارشگر کلمات</div>
+    <div class="modal-sub">آمار کامل متنت را ببین</div>
+    <textarea class="tool-input" id="wcInput" rows="6" placeholder="متن خود را اینجا وارد کنید..." oninput="updateWC()"></textarea>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px" id="wcStats">
+      <div class="tool-area" style="text-align:center"><div style="font-size:28px;font-weight:800;font-family:'Space Mono',monospace;color:var(--accent3)" id="wcWords">0</div><div style="font-size:12px;color:var(--text3)">کلمه</div></div>
+      <div class="tool-area" style="text-align:center"><div style="font-size:28px;font-weight:800;font-family:'Space Mono',monospace;color:var(--green)" id="wcChars">0</div><div style="font-size:12px;color:var(--text3)">کاراکتر</div></div>
+      <div class="tool-area" style="text-align:center"><div style="font-size:28px;font-weight:800;font-family:'Space Mono',monospace;color:var(--orange)" id="wcParas">0</div><div style="font-size:12px;color:var(--text3)">پاراگراف</div></div>
+      <div class="tool-area" style="text-align:center"><div style="font-size:28px;font-weight:800;font-family:'Space Mono',monospace;color:var(--pink)" id="wcRead">0</div><div style="font-size:12px;color:var(--text3)">دقیقه مطالعه</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FLASHCARD MODAL -->
+<div class="modal-overlay" id="modal-flashcard">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('flashcard')">✕</button>
+    <div class="modal-title">🃏 فلش‌کارت</div>
+    <div class="modal-sub">کارت‌های مرور برای حفظ مطالب</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <textarea class="tool-input" id="fcFront" rows="2" placeholder="روی کارت (سوال)"></textarea>
+      <textarea class="tool-input" id="fcBack" rows="2" placeholder="پشت کارت (جواب)"></textarea>
+    </div>
+    <button class="tool-btn" onclick="addFlashcard()" style="margin-bottom:20px">+ افزودن کارت</button>
+    <div id="fcViewer" style="display:none">
+      <div style="cursor:pointer;user-select:none" onclick="flipCard()">
+        <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px;padding:40px;text-align:center;min-height:140px;display:flex;align-items:center;justify-content:center;margin-bottom:12px">
+          <div style="font-size:20px;font-weight:700;color:#fff" id="fcDisplay"></div>
+        </div>
+        <div style="text-align:center;font-size:12px;color:var(--text3)">کلیک کن تا برگردانی</div>
+      </div>
+      <div class="row" style="justify-content:center;margin-top:12px">
+        <button class="tool-btn secondary" onclick="prevCard()">← قبلی</button>
+        <span style="padding:10px 16px;font-size:13px;color:var(--text3)" id="fcProgress">1/1</span>
+        <button class="tool-btn secondary" onclick="nextCard()">بعدی →</button>
+      </div>
+    </div>
+    <div id="fcEmpty" style="text-align:center;color:var(--text3);font-size:14px;padding:20px">هنوز کارتی اضافه نشده</div>
+  </div>
+</div>
+
+<!-- FOCUS MODE -->
+<div class="focus-overlay" id="focusOverlay">
+  <button class="focus-exit" onclick="closeFocus()">خروج از Focus Mode</button>
+  <div class="focus-title">FOCUS MODE · UNIBOX</div>
+  <div class="pomo-ring focus-pomo-big" style="width:240px;height:240px">
+    <svg width="240" height="240" viewBox="0 0 240 240">
+      <circle class="pomo-circle-bg" cx="120" cy="120" r="106" stroke-width="8"/>
+      <circle class="pomo-circle-fg" id="focusCircle" cx="120" cy="120" r="106"
+        stroke="url(#focusGrad)" stroke-width="8" stroke-dasharray="666" stroke-dashoffset="0"/>
+      <defs>
+        <linearGradient id="focusGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#7c5cfc"/>
+          <stop offset="100%" style="stop-color:#3ddc97"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="pomo-time">
+      <div class="pomo-time-num" id="focusTime">25:00</div>
+      <div class="pomo-time-label" style="color:rgba(255,255,255,0.4)" id="focusLabel">تمرکز</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:12px;margin-top:24px">
+    <button class="tool-btn secondary" onclick="pomoReset()" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)">↺</button>
+    <button class="tool-btn" id="focusBtn" onclick="pomoToggle()">▶ شروع</button>
+  </div>
+  <div class="focus-music">
+    <div class="music-title">🎵 صدای محیطی</div>
+    <div class="music-btns">
+      <button class="music-btn" onclick="playSound('rain',this)">🌧 باران</button>
+      <button class="music-btn" onclick="playSound('cafe',this)">☕ کافه</button>
+      <button class="music-btn" onclick="playSound('forest',this)">🌲 جنگل</button>
+      <button class="music-btn" onclick="playSound('off',this)">🔇 خاموش</button>
+    </div>
+  </div>
+</div>
+
+<!-- ───────────── JAVASCRIPT ───────────── -->
+<script>
+// ─── THEME ───
+const themeBtn = document.getElementById('themeBtn');
+let dark = true;
+themeBtn.onclick = () => {
+  dark = !dark;
+  document.body.classList.toggle('light-mode', !dark);
+  themeBtn.textContent = dark ? '🌙' : '☀️';
+};
+
+// ─── MODAL ───
+function openModal(id) {
+  document.getElementById('modal-'+id).classList.add('open');
+  if(id==='notes') renderNotes();
+  if(id==='gpa') initGPA();
+  if(id==='planner') initPlanner();
+  if(id==='flashcard') renderFC();
+}
+function closeModal(id) {
+  document.getElementById('modal-'+id).classList.remove('open');
+}
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
+});
+
+// ─── FOCUS MODE ───
+function openFocus() { document.getElementById('focusOverlay').classList.add('active'); }
+function closeFocus() { document.getElementById('focusOverlay').classList.remove('active'); }
+
+// ─── CALCULATOR ───
+let calcExpr = '';
+function calcInput(v) {
+  calcExpr += v;
+  document.getElementById('calcExpr').textContent = calcExpr;
+  try { document.getElementById('calcVal').textContent = eval(calcExpr.replace(/×/g,'*').replace(/÷/g,'/')); } catch(e) {}
+}
+function calcSci(fn) { calcExpr += fn; document.getElementById('calcExpr').textContent = calcExpr; }
+function calcClear() { calcExpr=''; document.getElementById('calcExpr').textContent=''; document.getElementById('calcVal').textContent='0'; }
+function calcEval() {
+  try {
+    const res = eval(calcExpr.replace(/×/g,'*').replace(/÷/g,'/'));
+    document.getElementById('calcExpr').textContent = calcExpr + ' =';
+    document.getElementById('calcVal').textContent = +res.toFixed(10);
+    calcExpr = String(+res.toFixed(10));
+  } catch(e) { document.getElementById('calcVal').textContent = 'خطا'; calcExpr=''; }
+}
+
+// ─── POMODORO ───
+let pomoTotal=25*60, pomoRemain=25*60, pomoRunning=false, pomoTimer=null, pomoSessions=0, pomoMode='focus';
+const CIRCUMFERENCE_POMO=553, CIRCUMFERENCE_FOCUS=666;
+
+function setPomoMode(secs, mode, btn) {
+  document.querySelectorAll('.pomo-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  pomoMode=mode; pomoTotal=secs; pomoRemain=secs; pomoRunning=false;
+  clearInterval(pomoTimer);
+  const labels={focus:'تمرکز',short:'استراحت کوتاه',long:'استراحت بلند'};
+  document.getElementById('pomoLabel').textContent=labels[mode]||'تمرکز';
+  if(document.getElementById('focusLabel')) document.getElementById('focusLabel').textContent=labels[mode]||'تمرکز';
+  updatePomoDisplay();
+  document.getElementById('pomoBtn').textContent='▶ شروع';
+  if(document.getElementById('focusBtn')) document.getElementById('focusBtn').textContent='▶ شروع';
+}
+
+function updatePomoDisplay() {
+  const m=Math.floor(pomoRemain/60), s=pomoRemain%60;
+  const str=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  document.getElementById('pomoTime').textContent=str;
+  if(document.getElementById('focusTime')) document.getElementById('focusTime').textContent=str;
+  const pct=pomoRemain/pomoTotal;
+  const offset1=CIRCUMFERENCE_POMO*(1-pct);
+  const offset2=CIRCUMFERENCE_FOCUS*(1-pct);
+  document.getElementById('pomoCircle').style.strokeDashoffset=offset1;
+  if(document.getElementById('focusCircle')) document.getElementById('focusCircle').style.strokeDashoffset=offset2;
+}
+
+function pomoToggle() {
+  pomoRunning=!pomoRunning;
+  const label=pomoRunning?'⏸ مکث':'▶ شروع';
+  document.getElementById('pomoBtn').textContent=label;
+  if(document.getElementById('focusBtn')) document.getElementById('focusBtn').textContent=label;
+  if(pomoRunning) {
+    document.querySelector('.pomo-time').classList.add('pomo-running');
+    pomoTimer=setInterval(()=>{
+      pomoRemain--;
+      updatePomoDisplay();
+      if(pomoRemain<=0) {
+        clearInterval(pomoTimer); pomoRunning=false;
+        document.getElementById('pomoBtn').textContent='▶ شروع';
+        if(document.getElementById('focusBtn')) document.getElementById('focusBtn').textContent='▶ شروع';
+        document.querySelector('.pomo-time').classList.remove('pomo-running');
+        if(pomoMode==='focus'){pomoSessions++;document.getElementById('pomoCount').textContent=pomoSessions;}
+        alert(pomoMode==='focus'?'🎉 زمان مطالعه تموم شد! وقت استراحته.':'☕ استراحت تموم شد! برگرد به مطالعه.');
+      }
+    },1000);
+  } else {
+    clearInterval(pomoTimer);
+    document.querySelector('.pomo-time').classList.remove('pomo-running');
+  }
+}
+function pomoReset() {
+  clearInterval(pomoTimer); pomoRunning=false; pomoRemain=pomoTotal;
+  document.getElementById('pomoBtn').textContent='▶ شروع';
+  if(document.getElementById('focusBtn')) document.getElementById('focusBtn').textContent='▶ شروع';
+  document.querySelector('.pomo-time').classList.remove('pomo-running');
+  updatePomoDisplay();
+}
+
+// ─── GPA ───
+let gpaData=[{name:'',grade:18,units:3},{name:'',grade:16,units:2}];
+function initGPA() { renderGPA(); }
+function renderGPA() {
+  const list=document.getElementById('gpaCourses');
+  list.innerHTML='';
+  gpaData.forEach((c,i)=>{
+    const row=document.createElement('div'); row.className='gpa-row';
+    row.innerHTML=`<input class="tool-input" value="${c.name}" placeholder="نام درس" oninput="gpaData[${i}].name=this.value">
+    <input class="tool-input" type="number" value="${c.grade}" min="0" max="20" oninput="gpaData[${i}].grade=+this.value">
+    <input class="tool-input" type="number" value="${c.units}" min="1" max="6" oninput="gpaData[${i}].units=+this.value">
+    <button class="gpa-del" onclick="removeGpaCourse(${i})">×</button>`;
+    list.appendChild(row);
+  });
+}
+function addGpaCourse() { gpaData.push({name:'',grade:17,units:3}); renderGPA(); }
+function removeGpaCourse(i) { gpaData.splice(i,1); renderGPA(); }
+function calcGPA() {
+  const total=gpaData.reduce((s,c)=>s+c.grade*c.units,0);
+  const units=gpaData.reduce((s,c)=>s+c.units,0);
+  const gpa=(total/units)||0;
+  document.getElementById('gpaNum').textContent=gpa.toFixed(2);
+  document.getElementById('gpaNum').style.color=gpa>=17?'var(--green)':gpa>=14?'var(--yellow)':'var(--pink)';
+  document.getElementById('gpaGrade').textContent=gpa>=17?'🌟 عالی':gpa>=14?'✅ قبول':gpa>=10?'⚠️ نزدیک به حد نصاب':'❌ مردودی';
+  document.getElementById('gpaResult').style.display='block';
+}
+
+// ─── NOTES ───
+function getNotes() { try{return JSON.parse(localStorage.getItem('unibox_notes')||'[]')}catch{return[]} }
+function saveNotes(n) { localStorage.setItem('unibox_notes',JSON.stringify(n)); }
+function addNote() {
+  const v=document.getElementById('noteInput').value.trim();
+  if(!v) return;
+  const notes=getNotes();
+  notes.unshift({text:v,time:new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'})});
+  saveNotes(notes); document.getElementById('noteInput').value=''; renderNotes();
+}
+function renderNotes() {
+  const list=document.getElementById('notesList');
+  const notes=getNotes();
+  if(!notes.length){list.innerHTML='<div style="text-align:center;color:var(--text3);padding:20px;font-size:14px">هنوز یادداشتی ندارید</div>';return;}
+  list.innerHTML=notes.map((n,i)=>`<div class="note-item">
+    <div class="note-text">${n.text}</div>
+    <div style="display:flex;flex-direction:column;align-items:end;gap:4px">
+      <div class="note-time">${n.time}</div>
+      <button class="note-del" onclick="deleteNote(${i})">✕</button>
+    </div></div>`).join('');
+}
+function deleteNote(i) { const n=getNotes(); n.splice(i,1); saveNotes(n); renderNotes(); }
+function clearNotes() { if(confirm('همه یادداشت‌ها پاک شوند؟')){ saveNotes([]); renderNotes(); } }
+document.getElementById('noteInput').addEventListener('keydown',e=>{ if(e.ctrlKey&&e.key==='Enter') addNote(); });
+
+// ─── PLANNER ───
+const daysFA=['ش','ی','د','س','چ','پ','ج'];
+const daysFullFA=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
+let activeDay=0;
+function getPlan() { try{return JSON.parse(localStorage.getItem('unibox_plan')||'{}')}catch{return{}} }
+function savePlan(p) { localStorage.setItem('unibox_plan',JSON.stringify(p)); }
+function initPlanner() {
+  const days=document.getElementById('plannerDays');
+  days.innerHTML=daysFA.map((d,i)=>`<div class="planner-day ${i===activeDay?'active':''}" onclick="selectDay(${i})">
+    <div class="day-name">${d}</div>
+    <div class="day-num">${i+1}</div>
+  </div>`).join('');
+  renderSchedule();
+}
+function selectDay(i) {
+  activeDay=i;
+  document.querySelectorAll('.planner-day').forEach((d,idx)=>d.classList.toggle('active',idx===i));
+  renderSchedule();
+}
+function addCls() {
+  const sub=document.getElementById('planSubject').value.trim();
+  const time=document.getElementById('planTime').value;
+  if(!sub) return;
+  const plan=getPlan();
+  if(!plan[activeDay]) plan[activeDay]=[];
+  plan[activeDay].push({sub,time:time||'--:--',color:['#7c5cfc','#3ddc97','#ff8c42','#ff5c8d','#36d9d9','#ffd166'][Math.floor(Math.random()*6)]});
+  savePlan(plan); document.getElementById('planSubject').value=''; renderSchedule();
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const addClassBtn=document.querySelector('[onclick="addClass()"]');
+  if(addClassBtn) addClassBtn.setAttribute('onclick','addCls()');
+});
+window.addClass=addCls;
+function renderSchedule() {
+  const plan=getPlan();
+  const classes=plan[activeDay]||[];
+  const list=document.getElementById('scheduleList');
+  if(!classes.length){list.innerHTML=`<div style="text-align:center;color:var(--text3);padding:20px;font-size:14px">برای ${daysFullFA[activeDay]} کلاسی ثبت نشده</div>`;return;}
+  list.innerHTML=classes.map((c,i)=>`<div class="schedule-item">
+    <div class="schedule-dot" style="background:${c.color}"></div>
+    <div class="schedule-subject">${c.sub}</div>
+    <div class="schedule-time">${c.time}</div>
+    <button class="note-del" onclick="deleteClass(${i})">✕</button>
+  </div>`).join('');
+}
+function deleteClass(i){const p=getPlan();p[activeDay].splice(i,1);savePlan(p);renderSchedule();}
+
+// ─── SUMMARIZE ───
+function summarizeText() {
+  const text=document.getElementById('summarizeInput').value.trim();
+  if(!text){alert('لطفاً متنی وارد کن');return;}
+  const sentences=text.match(/[^.!?؟]+[.!?؟]+/g)||text.split('\n').filter(Boolean);
+  const count=Math.max(2,Math.floor(sentences.length*0.3));
+  const summary=sentences.slice(0,count).join(' ');
+  const result=document.getElementById('summarizeResult');
+  result.style.display='block';
+  result.textContent=`📋 خلاصه (${count} جمله از ${sentences.length}):\n\n${summary}`;
+}
+
+// ─── WORD COUNT ───
+function updateWC() {
+  const t=document.getElementById('wcInput').value;
+  const words=t.trim()===''?0:t.trim().split(/\s+/).length;
+  const chars=t.length;
+  const paras=t.split(/\n\s*\n/).filter(p=>p.trim()).length||+!!t.trim();
+  const read=Math.ceil(words/200);
+  document.getElementById('wcWords').textContent=words;
+  document.getElementById('wcChars').textContent=chars;
+  document.getElementById('wcParas').textContent=paras;
+  document.getElementById('wcRead').textContent=read||0;
+}
+
+// ─── FLASHCARD ───
+let flashcards=[]; let fcIdx=0; let fcFlipped=false;
+function addFlashcard() {
+  const f=document.getElementById('fcFront').value.trim();
+  const b=document.getElementById('fcBack').value.trim();
+  if(!f||!b){alert('هر دو طرف کارت را پر کن');return;}
+  flashcards.push({front:f,back:b});
+  document.getElementById('fcFront').value='';document.getElementById('fcBack').value='';
+  fcIdx=flashcards.length-1; fcFlipped=false; renderFC();
+}
+function renderFC() {
+  const viewer=document.getElementById('fcViewer');
+  const empty=document.getElementById('fcEmpty');
+  if(!flashcards.length){viewer.style.display='none';empty.style.display='block';return;}
+  viewer.style.display='block'; empty.style.display='none';
+  const c=flashcards[fcIdx];
+  document.getElementById('fcDisplay').textContent=fcFlipped?c.back:c.front;
+  document.getElementById('fcProgress').textContent=`${fcIdx+1}/${flashcards.length} · ${fcFlipped?'پشت':'روی'}`;
+}
+function flipCard(){fcFlipped=!fcFlipped;renderFC();}
+function nextCard(){fcIdx=(fcIdx+1)%flashcards.length;fcFlipped=false;renderFC();}
+function prevCard(){fcIdx=(fcIdx-1+flashcards.length)%flashcards.length;fcFlipped=false;renderFC();}
+
+// ─── RESOURCES DATA ───
+const resources=[
+  {name:'Coursera',icon:'🎓',desc:'دوره‌های دانشگاهی معتبر',cat:'learn',tag:'آموزش',tagColor:'var(--accent)',url:'https://coursera.org'},
+  {name:'Khan Academy',icon:'📐',desc:'آموزش رایگان همه سطوح',cat:'learn',tag:'رایگان',tagColor:'var(--green)',url:'https://khanacademy.org'},
+  {name:'edX',icon:'🏛',desc:'دوره‌های MIT و Harvard',cat:'learn',tag:'آموزش',tagColor:'var(--accent)',url:'https://edx.org'},
+  {name:'MIT OpenCourseWare',icon:'⚡',desc:'درسنامه‌های MIT رایگان',cat:'learn',tag:'رایگان',tagColor:'var(--green)',url:'https://ocw.mit.edu'},
+  {name:'Google Scholar',icon:'🔍',desc:'جستجوی مقالات علمی',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://scholar.google.com'},
+  {name:'ResearchGate',icon:'🔬',desc:'شبکه محققان جهانی',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://researchgate.net'},
+  {name:'Sci-Hub',icon:'📖',desc:'دسترسی آزاد به مقالات',cat:'research',tag:'مقاله',tagColor:'var(--orange)',url:'https://sci-hub.se'},
+  {name:'Grammarly',icon:'✅',desc:'ویرایش گرامر انگلیسی',cat:'write',tag:'نوشتار',tagColor:'var(--green)',url:'https://grammarly.com'},
+  {name:'QuillBot',icon:'🖊',desc:'پارافریز و بهبود متن',cat:'write',tag:'نوشتار',tagColor:'var(--green)',url:'https://quillbot.com'},
+  {name:'DeepL',icon:'🌐',desc:'ترجمه حرفه‌ای',cat:'write',tag:'ترجمه',tagColor:'var(--cyan)',url:'https://deepl.com'},
+  {name:'Hemingway Editor',icon:'📝',desc:'متن واضح‌تر بنویس',cat:'write',tag:'نوشتار',tagColor:'var(--green)',url:'https://hemingwayapp.com'},
+  {name:'SmallPDF',icon:'📄',desc:'ابزارهای PDF آنلاین',cat:'file',tag:'فایل',tagColor:'var(--orange)',url:'https://smallpdf.com'},
+  {name:'ILovePDF',icon:'❤️',desc:'ترکیب و ویرایش PDF',cat:'file',tag:'فایل',tagColor:'var(--pink)',url:'https://ilovepdf.com'},
+  {name:'Canva',icon:'🎨',desc:'طراحی حرفه‌ای ساده',cat:'tool',tag:'طراحی',tagColor:'var(--pink)',url:'https://canva.com'},
+  {name:'Notion',icon:'📒',desc:'یادداشت و مدیریت پروژه',cat:'tool',tag:'ابزار',tagColor:'var(--text2)',url:'https://notion.so'},
+  {name:'Zotero',icon:'📚',desc:'مدیریت منابع تحقیقاتی',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://zotero.org'},
+  {name:'Wolfram Alpha',icon:'🧮',desc:'موتور محاسبات علمی',cat:'tool',tag:'علمی',tagColor:'var(--accent)',url:'https://wolframalpha.com'},
+  {name:'Overleaf',icon:'📜',desc:'نوشتن LaTeX آنلاین',cat:'write',tag:'LaTeX',tagColor:'var(--green)',url:'https://overleaf.com'},
+];
+
+let activeRes='all';
+function filterRes(cat, btn) {
+  activeRes=cat;
+  document.querySelectorAll('.res-cat-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderResources();
+}
+function renderResources() {
+  const grid=document.getElementById('resGrid');
+  const filtered=activeRes==='all'?resources:resources.filter(r=>r.cat===activeRes);
+  grid.innerHTML=filtered.map(r=>`<a class="res-card" href="${r.url}" target="_blank" rel="noopener">
+    <div class="res-card-icon">${r.icon}</div>
+    <div class="res-card-name">${r.name}</div>
+    <div class="res-card-desc">${r.desc}</div>
+    <div class="res-card-tag" style="background:${r.tagColor}22;color:${r.tagColor};border:1px solid ${r.tagColor}44">${r.tag}</div>
+  </a>`).join('');
+}
+renderResources();
+
+// ─── SHARE ───
+function updateShareCard(){
+  const h=document.getElementById('shareHours').value||'0';
+  const n=document.getElementById('shareName').value||'دانشجو';
+  document.getElementById('shareHoursDisplay').textContent=h;
+  document.getElementById('shareCard').classList.add('generated');
+}
+function copyShareText(){
+  const h=document.getElementById('shareHours').value||'0';
+  const n=document.getElementById('shareName').value||'دانشجو';
+  const text=`📚 ${n} امروز ${h} ساعت مطالعه کرد!\n\n✅ با UniBox مطالعه هوشمند رو تجربه کن 🔥\n\n#UniBox #مطالعه_هوشمند`;
+  navigator.clipboard.writeText(text).then(()=>alert('✅ متن کپی شد! بزن تو پروفایلت 🔥'));
+}
+
+// ─── SOUND (simple oscillator beeps as placeholder) ───
+let currentSound=null;
+function playSound(type,btn){
+  document.querySelectorAll('.music-btn').forEach(b=>b.classList.remove('active'));
+  if(type==='off'){btn.classList.add('active');return;}
+  btn.classList.add('active');
+  // placeholder — in production connect to real ambient audio
+}
+
+// ─── KEYBOARD SHORTCUTS ───
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));
+    closeFocus();
+  }
+});
+</script>
+</body>
+</html>
