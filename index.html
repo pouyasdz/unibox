@@ -483,6 +483,11 @@ textarea.tool-input:focus, input.tool-input:focus { border-color:var(--accent); 
 }
 .pomo-running .pomo-time-num { animation: pulse 2s ease infinite; }
 
+/* ─── IRAN CARD ─── */
+.iran-card { border-right: 3px solid rgba(61,220,151,0.4); }
+.iran-card:hover { border-right-color: var(--green); }
+.iran-cats { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+
 /* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:transparent; }
@@ -1315,26 +1320,56 @@ const resources=[
   {name:'Khan Academy',icon:'📐',desc:'آموزش رایگان همه سطوح',cat:'learn',tag:'رایگان',tagColor:'var(--green)',url:'https://khanacademy.org'},
   {name:'edX',icon:'🏛',desc:'دوره‌های MIT و Harvard',cat:'learn',tag:'آموزش',tagColor:'var(--accent)',url:'https://edx.org'},
   {name:'MIT OpenCourseWare',icon:'⚡',desc:'درسنامه‌های MIT رایگان',cat:'learn',tag:'رایگان',tagColor:'var(--green)',url:'https://ocw.mit.edu'},
+  {name:'Udemy',icon:'🎒',desc:'هزاران دوره تخصصی با تخفیف',cat:'learn',tag:'آموزش',tagColor:'var(--accent)',url:'https://udemy.com'},
+  {name:'YouTube',icon:'▶️',desc:'بهترین کانال‌های آموزشی',cat:'learn',tag:'رایگان',tagColor:'var(--green)',url:'https://youtube.com'},
   {name:'Google Scholar',icon:'🔍',desc:'جستجوی مقالات علمی',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://scholar.google.com'},
   {name:'ResearchGate',icon:'🔬',desc:'شبکه محققان جهانی',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://researchgate.net'},
   {name:'Sci-Hub',icon:'📖',desc:'دسترسی آزاد به مقالات',cat:'research',tag:'مقاله',tagColor:'var(--orange)',url:'https://sci-hub.se'},
+  {name:'Zotero',icon:'📚',desc:'مدیریت منابع تحقیقاتی',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://zotero.org'},
+  {name:'Semantic Scholar',icon:'🧬',desc:'جستجوی هوشمند مقالات',cat:'research',tag:'AI',tagColor:'var(--accent)',url:'https://semanticscholar.org'},
+  {name:'JSTOR',icon:'📜',desc:'بایگانی مقالات آکادمیک',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://jstor.org'},
   {name:'Grammarly',icon:'✅',desc:'ویرایش گرامر انگلیسی',cat:'write',tag:'نوشتار',tagColor:'var(--green)',url:'https://grammarly.com'},
   {name:'QuillBot',icon:'🖊',desc:'پارافریز و بهبود متن',cat:'write',tag:'نوشتار',tagColor:'var(--green)',url:'https://quillbot.com'},
   {name:'DeepL',icon:'🌐',desc:'ترجمه حرفه‌ای',cat:'write',tag:'ترجمه',tagColor:'var(--cyan)',url:'https://deepl.com'},
   {name:'Hemingway Editor',icon:'📝',desc:'متن واضح‌تر بنویس',cat:'write',tag:'نوشتار',tagColor:'var(--green)',url:'https://hemingwayapp.com'},
+  {name:'Overleaf',icon:'📄',desc:'نوشتن LaTeX آنلاین',cat:'write',tag:'LaTeX',tagColor:'var(--green)',url:'https://overleaf.com'},
+  {name:'Cite This For Me',icon:'🔖',desc:'ساخت منابع‌نویسی APA/MLA',cat:'write',tag:'منبع',tagColor:'var(--orange)',url:'https://citethisforme.com'},
   {name:'SmallPDF',icon:'📄',desc:'ابزارهای PDF آنلاین',cat:'file',tag:'فایل',tagColor:'var(--orange)',url:'https://smallpdf.com'},
   {name:'ILovePDF',icon:'❤️',desc:'ترکیب و ویرایش PDF',cat:'file',tag:'فایل',tagColor:'var(--pink)',url:'https://ilovepdf.com'},
+  {name:'Convertio',icon:'🔄',desc:'تبدیل فرمت فایل‌ها',cat:'file',tag:'فایل',tagColor:'var(--orange)',url:'https://convertio.co'},
+  {name:'WeTransfer',icon:'📦',desc:'ارسال فایل‌های سنگین',cat:'file',tag:'فایل',tagColor:'var(--cyan)',url:'https://wetransfer.com'},
   {name:'Canva',icon:'🎨',desc:'طراحی حرفه‌ای ساده',cat:'tool',tag:'طراحی',tagColor:'var(--pink)',url:'https://canva.com'},
   {name:'Notion',icon:'📒',desc:'یادداشت و مدیریت پروژه',cat:'tool',tag:'ابزار',tagColor:'var(--text2)',url:'https://notion.so'},
-  {name:'Zotero',icon:'📚',desc:'مدیریت منابع تحقیقاتی',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://zotero.org'},
-  {name:'Wolfram Alpha',icon:'🧮',desc:'موتور محاسبات علمی',cat:'tool',tag:'علمی',tagColor:'var(--accent)',url:'https://wolframalpha.com'},
-  {name:'Overleaf',icon:'📜',desc:'نوشتن LaTeX آنلاین',cat:'write',tag:'LaTeX',tagColor:'var(--green)',url:'https://overleaf.com'},
+  {name:'Wolfram Alpha',icon:'🧮',desc:'موتور محاسبات علمی',cat:'math',tag:'علمی',tagColor:'var(--accent)',url:'https://wolframalpha.com'},
+  {name:'Desmos',icon:'📈',desc:'رسم نمودار آنلاین',cat:'math',tag:'ریاضی',tagColor:'var(--green)',url:'https://desmos.com'},
+  {name:'GeoGebra',icon:'📐',desc:'ابزار هندسه و آمار',cat:'math',tag:'ریاضی',tagColor:'var(--cyan)',url:'https://geogebra.org'},
+  {name:'Symbolab',icon:'∑',desc:'حل معادله مرحله به مرحله',cat:'math',tag:'ریاضی',tagColor:'var(--accent)',url:'https://symbolab.com'},
+  {name:'Duolingo',icon:'🦉',desc:'یادگیری زبان بازی‌وار',cat:'lang',tag:'زبان',tagColor:'var(--green)',url:'https://duolingo.com'},
+  {name:'Cambridge Dictionary',icon:'📖',desc:'دیکشنری انگلیسی معتبر',cat:'lang',tag:'زبان',tagColor:'var(--cyan)',url:'https://dictionary.cambridge.org'},
+  {name:'Forvo',icon:'🔊',desc:'تلفظ کلمات به هر زبان',cat:'lang',tag:'زبان',tagColor:'var(--orange)',url:'https://forvo.com'},
+];
+
+const iranSites=[
+  {name:'مکتب‌خونه',icon:'🏫',desc:'آموزش آنلاین فارسی با مدرک معتبر',cat:'learn',tag:'آموزش',tagColor:'var(--accent)',url:'https://maktabkhooneh.org'},
+  {name:'فرادرس',icon:'📺',desc:'بزرگ‌ترین پلتفرم آموزش ویدیویی ایران',cat:'learn',tag:'آموزش',tagColor:'var(--accent)',url:'https://faradars.org'},
+  {name:'آپارات',icon:'▶️',desc:'ویدیوهای آموزشی فارسی',cat:'learn',tag:'ویدیو',tagColor:'var(--pink)',url:'https://aparat.com'},
+  {name:'Virgool',icon:'✍️',desc:'پلتفرم نوشتن و بلاگ فارسی',cat:'learn',tag:'محتوا',tagColor:'var(--green)',url:'https://virgool.io'},
+  {name:'ایران‌داک',icon:'🔬',desc:'پایگاه اطلاعات علمی ایران',cat:'research',tag:'تحقیق',tagColor:'var(--cyan)',url:'https://irandoc.ac.ir'},
+  {name:'SID.ir',icon:'📑',desc:'سیستم اطلاعات علمی جهاد دانشگاهی',cat:'research',tag:'مقاله',tagColor:'var(--cyan)',url:'https://sid.ir'},
+  {name:'Magiran',icon:'📰',desc:'پایگاه مجلات علمی ایران',cat:'research',tag:'مجله',tagColor:'var(--orange)',url:'https://magiran.com'},
+  {name:'Noormags',icon:'📚',desc:'نشریات علمی حوزوی و دانشگاهی',cat:'research',tag:'مقاله',tagColor:'var(--cyan)',url:'https://noormags.ir'},
+  {name:'آبادیس',icon:'📖',desc:'دیکشنری فارسی به انگلیسی',cat:'translate',tag:'ترجمه',tagColor:'var(--green)',url:'https://abadis.ir'},
+  {name:'آهنگ‌سان',icon:'🌐',desc:'ترجمه آنلاین فارسی',cat:'translate',tag:'ترجمه',tagColor:'var(--green)',url:'https://www.google.com/search?q=ahangsan+translate'},
+  {name:'ویراستار',icon:'📝',desc:'ویرایش و غلط‌یاب متن فارسی',cat:'tool',tag:'ابزار',tagColor:'var(--orange)',url:'https://virastyar.ir'},
+  {name:'آکادمی نوین',icon:'🏛',desc:'دوره‌های مهارتی و حرفه‌ای',cat:'learn',tag:'آموزش',tagColor:'var(--accent)',url:'https://academi.ir'},
+  {name:'دانشنامه رشد',icon:'🌱',desc:'محتوای آموزشی مدارس و دانشگاه',cat:'learn',tag:'آموزش',tagColor:'var(--green)',url:'https://roshd.ir'},
+  {name:'پرتال جامع علوم انسانی',icon:'🏛',desc:'مقالات علوم انسانی فارسی',cat:'research',tag:'علوم انسانی',tagColor:'var(--cyan)',url:'https://ensani.ir'},
 ];
 
 let activeRes='all';
 function filterRes(cat, btn) {
   activeRes=cat;
-  document.querySelectorAll('.res-cat-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#resCats .res-cat-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   renderResources();
 }
@@ -1350,19 +1385,89 @@ function renderResources() {
 }
 renderResources();
 
+let activeIran='all';
+function filterIran(cat, btn) {
+  activeIran=cat;
+  document.querySelectorAll('#iranCats .res-cat-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderIran();
+}
+function renderIran() {
+  const grid=document.getElementById('iranGrid');
+  const filtered=activeIran==='all'?iranSites:iranSites.filter(r=>r.cat===activeIran);
+  grid.innerHTML=filtered.map(r=>`<a class="res-card iran-card" href="${r.url}" target="_blank" rel="noopener">
+    <div class="res-card-icon">${r.icon}</div>
+    <div class="res-card-name">${r.name}</div>
+    <div class="res-card-desc">${r.desc}</div>
+    <div class="res-card-tag" style="background:${r.tagColor}22;color:${r.tagColor};border:1px solid ${r.tagColor}44">${r.tag}</div>
+  </a>`).join('');
+}
+renderIran();
+
 // ─── SHARE ───
-function updateShareCard(){
-  const h=document.getElementById('shareHours').value||'0';
-  const n=document.getElementById('shareName').value||'دانشجو';
-  document.getElementById('shareHoursDisplay').textContent=h;
+function liveShareUpdate() { buildSharePreviews(); }
+
+function getShareData() {
+  const h = document.getElementById('shareHours').value || '0';
+  const n = document.getElementById('shareName').value || 'دانشجو';
+  const sub = document.getElementById('shareSubject').value || '📚 مطالعه عمومی';
+  return {h, n, sub};
+}
+
+function buildSharePreviews() {
+  const {h, n, sub} = getShareData();
+  const today = new Date().toLocaleDateString('fa-IR');
+
+  // update card
+  document.getElementById('shareHoursDisplay').textContent = h;
+  document.getElementById('shareSubjectDisplay').textContent = sub;
+  document.getElementById('shareDate').textContent = today;
   document.getElementById('shareCard').classList.add('generated');
+
+  // message text
+  const msgText = `📚 ${n} امروز ${h} ساعت مطالعه کرد!\n\n📖 موضوع: ${sub}\n🔥 با UniBox مطالعه هوشمند رو تجربه کن\n\n#UniBox #مطالعه_هوشمند`;
+  document.getElementById('copyPreviewText').textContent = msgText;
+
+  // bio text
+  const bioText = `📚 دانشجوی پرتلاش | ${h}h مطالعه روزانه\n${sub}\npouyasdz.github.io/unibox 🔗 #مطالعه_هوشمند`;
+  document.getElementById('bioPreviewText').textContent = bioText;
 }
-function copyShareText(){
-  const h=document.getElementById('shareHours').value||'0';
-  const n=document.getElementById('shareName').value||'دانشجو';
-  const text=`📚 ${n} امروز ${h} ساعت مطالعه کرد!\n\n✅ با UniBox مطالعه هوشمند رو تجربه کن 🔥\n\n#UniBox #مطالعه_هوشمند`;
-  navigator.clipboard.writeText(text).then(()=>alert('✅ متن کپی شد! بزن تو پروفایلت 🔥'));
+
+function updateShareCard() { buildSharePreviews(); }
+
+function copyShareText() {
+  const {h, n, sub} = getShareData();
+  const text = `📚 ${n} امروز ${h} ساعت مطالعه کرد!\n\n📖 موضوع: ${sub}\n🔥 با UniBox مطالعه هوشمند رو تجربه کن\n\n#UniBox #مطالعه_هوشمند`;
+  navigator.clipboard.writeText(text).then(() => {
+    showCopyToast('✅ متن کپی شد! بزن تو پیام‌ها یا استوری 🔥');
+  });
 }
+
+function copyBioText() {
+  const {h, n, sub} = getShareData();
+  const text = `📚 دانشجوی پرتلاش | ${h}h مطالعه روزانه\n${sub}\npouyasdz.github.io/unibox 🔗 #مطالعه_هوشمند`;
+  navigator.clipboard.writeText(text).then(() => {
+    showCopyToast('📌 متن بیو کپی شد! برو تو پروفایلت جایگذار کن');
+  });
+}
+
+function showCopyToast(msg) {
+  let t = document.getElementById('copyToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'copyToast';
+    t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;box-shadow:0 8px 30px rgba(124,92,252,0.4);transition:opacity 0.4s;font-family:Vazirmatn,sans-serif;white-space:nowrap;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; }, 3000);
+}
+
+// init share previews
+document.addEventListener('DOMContentLoaded', () => { buildSharePreviews(); });
+setTimeout(buildSharePreviews, 100);
 
 // ─── SOUND (simple oscillator beeps as placeholder) ───
 let currentSound=null;
